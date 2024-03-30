@@ -34,6 +34,8 @@ def decode_vless(node: str) -> Dict:
     fingerprint = param_dict.get("fp")
     type_ = param_dict.get("type")
     path = param_dict.get("path")
+    if path:
+        path = unquote(path)
     host = param_dict.get("host")
 
     result = {
@@ -63,7 +65,7 @@ def decode_vless(node: str) -> Dict:
         if type_ == "ws":
             result["transport"] = {
                 "type": type_,
-                "path": unquote(path),  # type: ignore
+                "path": path,
                 "headers": {"Host": host},
             }
         elif type_ == "tcp":
